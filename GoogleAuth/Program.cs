@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,15 @@ builder.Services.AddAuthentication(options =>
   {
       options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
       options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+  })
+  .AddFacebook(options =>
+  {
+      options.AppId = builder.Configuration.GetSection("Facebook:AppId").Value;
+      options.AppSecret = builder.Configuration.GetSection("Facebook:AppSecret").Value;
+
+      options.CallbackPath = "/signin-facebook";
   });
+
 
 
 
